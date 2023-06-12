@@ -1,14 +1,20 @@
-const express = require("express")
+import express from "express"
+
+// const Alarm = require("../models/alarmModel")
+import alarmTime from "../models/alarmModel.js"
+
 const router = express.Router()
-const Alarm = require("../models/alarmModel")
 
 // Create a new alarm
 router.post("/", async (req, res) => {
-  const { alarmTime } = req.body
+  const alarmTimeData = req.body.alarmTime
+  // console.log(alarmTimeData)
 
   try {
-    const alarm = await Alarm.create({ alarmTime })
-    res.status(201).json(alarm)
+    //     const alarm = await alarmTime.create({ alarmTime })
+    const newAlarm = new alarmTime({ alarmTime: alarmTimeData })
+    newAlarm.save()
+    res.status(201).json(newAlarm)
   } catch (error) {
     console.error("Error creating alarm:", error)
     res.status(500).json({ error: "Error creating alarm" })
@@ -18,7 +24,7 @@ router.post("/", async (req, res) => {
 // Retrieve all alarms
 router.get("/", async (req, res) => {
   try {
-    const alarms = await Alarm.find()
+    const alarms = await alarmTime.find()
     res.status(200).json(alarms)
   } catch (error) {
     console.error("Error retrieving alarms:", error)
@@ -26,4 +32,4 @@ router.get("/", async (req, res) => {
   }
 })
 
-module.exports = router
+export default router

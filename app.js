@@ -1,10 +1,15 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const alarmRoutes = require("./routes/alarmRoutes")
+// import cors from "cors"
+import express from "express"
+// import bodyParser from 'body-parser';
+import mongoose from "mongoose"
+import cors from "cors"
+// const express = require("express")
+// const mongoose = require("mongoose")
+import routerx from "./routes/alarmRoutes.js"
 
 // Create Express app
 const app = express()
-
+app.use(cors())
 // Connect to MongoDB
 //ToDO: connect=> .env file when deployed
 mongoose
@@ -26,7 +31,7 @@ mongoose
 app.use(express.json())
 
 // Routes
-app.use("/api/alarm", alarmRoutes)
+app.use("/api/alarm", routerx)
 
 // Start the server
 const port = process.env.PORT || 5000
